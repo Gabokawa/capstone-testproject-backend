@@ -13,32 +13,33 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection
-const uri = process.env.MONGODB_URI;
-
-console.log('MONGODB URI: ' + uri);
-
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log('MongoDB database connection established successfully');
-});
+// const uri = process.env.MONGODB_URI;
+// console.log('MONGODB URI: ' + uri);
+// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// const connection = mongoose.connection;
+// connection.once('open', () => {
+//     console.log('MongoDB database connection established successfully');
+// });
 
 // Routes
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.get('/signup', (req, res) => {
-    res.send('Sign up data here');
-});
-
-app.get('/login', (req, res) => {
-    res.send('Log in data here');
-});
-
 app.get('/shops', (req, res) => {
     res.send('Shop data here');
 });
+
+
+// Import routes
+const usersRouter = require('./routes/users');
+const shopsRouter = require('./routes/shops');
+
+// Use routes
+app.use('/users', usersRouter);
+app.use('/shops', shopsRouter);
+
+
 // Start server
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
